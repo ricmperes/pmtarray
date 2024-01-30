@@ -44,8 +44,8 @@ class PMTunit():
                 self.active_area_correction = _model.active_area_correction
 
             elif self.type == 'square':
-                self.width = _model.width_package
-                self.height = _model.height_package
+                self.width = self.width_package = _model.width_package
+                self.height = self.height_package = _model.height_package
                 self.width_active = _model.width_active
                 self.height_active = _model.height_active
                 self.width_tolerance = _model.width_tolerance

@@ -47,13 +47,12 @@ class PMTarray():
 
         r_max = self.array_diameter/2 - self.border_margin
 
-        n_hex_x = np.ceil(self.array_diameter/
+        n_hex_x = np.ceil((self.array_diameter + np.abs(self.border_margin))/
                           (self.pmtunit.diameter_packaging + 
                            self.pmtunit.diameter_tolerance)*1.2)
-        n_hex_y = np.ceil(self.array_diameter/
+        n_hex_y = np.ceil((self.array_diameter+ np.abs(self.border_margin))/
                           (4/np.sqrt(3)*
-                           (np.ceil((self.pmtunit.diameter_packaging + 
-                                     self.pmtunit.diameter_tolerance))/2)
+                           (np.ceil((self.pmtunit.diameter_packaging)/4))
                                      )*1.2)
 
         hex_centers, _ = create_hex_grid(
@@ -80,10 +79,12 @@ class PMTarray():
         """
         
         # make the center a not
-        D_corner_x = np.arange(0,self.array_diameter/2 + self.pmtunit.width_unit, 
-                               self.pmtunit.width_unit + self.intra_pmt_distance)
-        D_corner_y = np.arange(0,self.array_diameter/2 +  self.pmtunit.height_unit, 
-                               self.pmtunit.height_unit + self.intra_pmt_distance)
+        D_corner_x = np.arange(
+            0,self.array_diameter/2 + self.pmtunit.width_unit, 
+            self.pmtunit.width_unit + self.intra_pmt_distance) - self.intra_pmt_distance/2
+        D_corner_y = np.arange(
+            0,self.array_diameter/2 + self.pmtunit.height_unit, 
+            self.pmtunit.height_unit + self.intra_pmt_distance) - self.intra_pmt_distance/2
 
         D_corner_x = np.concatenate([-np.flip(D_corner_x[1:]),D_corner_x])
         D_corner_y = np.concatenate([-np.flip(D_corner_y[1:]),D_corner_y])
