@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pmtarray"
+version = "1.0"
+authors = [{ name="Ricardo Peres", email="rperes@physik.uzh.ch"},]
+description = "A simple package to get the geometry of PMT arrays."
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "hexalattice"
+    ]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "Natural Language :: English",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+[project.scripts]
+pmtarray = "pmtarray.scripts.script_pmtarray:main"
+pmtunit = "pmtarray.scripts.script_pmtunit:main"
+
+[project.urls]
+"Homepage" = "https://github.com/ricmperes/pmtarray"
+"Bug Tracker" = "https://github.com/ricmperes/pmtarray/issues"
+"Documentation" = "https://ricmperes.github.io/pmtarray/"
