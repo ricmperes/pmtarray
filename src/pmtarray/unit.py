@@ -275,31 +275,34 @@ class PMTunit():
             return fig, ax
 
 
-    
+    def get_properties_str(self) -> str:
+        main_string = f'---------------------------\n'
+        main_string += f'Model: {self.name}\n'
+        main_string += f'---------------------------\n'
+
+        if self.type == 'circular':
+            main_string += f'Diameter: {self.diameter_packaging} mm\n'
+            main_string += f'Active diameter: {self.active_diameter} mm\n'
+            main_string += f'Diameter tolerance: {self.diameter_tolerance} mm\n'
+
+        elif self.type == 'square':
+            main_string += f'Width: {self.width} mm\n'
+            main_string += f'Height: {self.height} mm\n'
+            main_string += f'Active width: {self.width_active} mm\n'
+            main_string += f'Active height: {self.height_active} mm\n'
+            main_string += f'Width tolerance: {self.width_tolerance} mm\n'
+            main_string += f'Height tolerance: {self.height_tolerance} mm\n'
+        
+        main_string += '---------------------------\n'
+        main_string += f'Total unit area: {self.total_area:.2f} mm^2\n'
+        main_string += f'Active area geometric correction: {self.active_area_correction:.2f}\n'
+        main_string += f'Active area: {self.active_area:.2f} mm^2\n'
+        main_string += f'Active area fraction: {self.active_area_fraction*100:.2f} %'
+
+        return main_string
+        
+
     def print_properties(self) -> None:
         """Print the main properties of the PMT model
         """
-        print('---------------------------')
-        print(f'Model: {self.name}')
-        print('---------------------------')
-
-        if self.type == 'circular':
-            print(f'Diameter: {self.diameter_packaging} mm')
-            print(f'Active diameter: {self.active_diameter} mm')
-            print(f'Diameter tolerance: {self.diameter_tolerance} mm')
-
-        elif self.type == 'square':
-            print(f'Width: {self.width} mm')
-            print(f'Height: {self.height} mm')
-            print(f'Active width: {self.width_active} mm')
-            print(f'Active height: {self.height_active} mm')
-            print(f'Width tolerance: {self.width_tolerance} mm')
-            print(f'Height tolerance: {self.height_tolerance} mm')
-        
-        print('---------------------------')
-        print(f'Total unit area: {self.total_area:.2f} mm^2')
-        print(f'Active area geometric correction: '
-              f'{self.active_area_correction:.2f}')
-        print(f'Active area: {self.active_area:.2f} mm^2')
-        print(f'Active area fraction: '
-              f'{self.active_area_fraction:.2f}')
+        print(self.get_properties_str())
