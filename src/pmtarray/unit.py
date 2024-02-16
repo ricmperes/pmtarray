@@ -329,10 +329,10 @@ class PMTunit():
                                     self.diameter_packaging,
                                     self.active_diameter,
                                     self.diameter_tolerance,
-                                    self.total_area,
-                                    self.active_area_correction,
-                                    self.active_area,
-                                    self.active_area_fraction,
+                                    round(self.total_area, 2),
+                                    round(self.active_area_correction, 2),
+                                    round(self.active_area, 2),
+                                    round(self.active_area_fraction, 2),
                                     self.qe]}
 
         elif self.type == 'square':
@@ -358,10 +358,10 @@ class PMTunit():
                                     self.height_active,
                                     self.width_tolerance,
                                     self.height_tolerance,
-                                    self.total_area,
-                                    self.active_area_correction,
-                                    self.active_area,
-                                    self.active_area_fraction,
+                                    round(self.total_area, 2),
+                                    round(self.active_area_correction, 2),
+                                    round(self.active_area, 2),
+                                    round(self.active_area_fraction, 2),
                                     self.qe]}
         else:
             raise ValueError('Model type not recognized.')
