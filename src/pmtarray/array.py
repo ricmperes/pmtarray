@@ -80,14 +80,20 @@ class PMTarray():
         
         # make the center a not
         D_corner_x = np.arange(
-            0,self.array_diameter/2 + self.pmtunit.width_unit, 
-            self.pmtunit.width_unit + self.intra_pmt_distance) - self.intra_pmt_distance/2
+            0 + self.intra_pmt_distance/2, 
+            self.array_diameter/2 + self.pmtunit.width_unit + self.intra_pmt_distance, 
+            self.pmtunit.width_unit + self.intra_pmt_distance)
         D_corner_y = np.arange(
-            0,self.array_diameter/2 + self.pmtunit.height_unit, 
-            self.pmtunit.height_unit + self.intra_pmt_distance) - self.intra_pmt_distance/2
+            0 + self.intra_pmt_distance/2,
+            self.array_diameter/2 + self.pmtunit.height_unit + self.intra_pmt_distance, 
+            self.pmtunit.height_unit + self.intra_pmt_distance)
 
-        D_corner_x = np.concatenate([-np.flip(D_corner_x[1:]),D_corner_x])
-        D_corner_y = np.concatenate([-np.flip(D_corner_y[1:]),D_corner_y])
+        D_corner_x = np.concatenate(
+            [-np.flip(D_corner_x) - self.pmtunit.width_unit,
+             D_corner_x])
+        D_corner_y = np.concatenate(
+            [-np.flip(D_corner_y) - self.pmtunit.height_unit,
+             D_corner_y])
 
         D_corner_xx, D_corner_yy = np.meshgrid(D_corner_x, D_corner_y, indexing = 'ij') 
 
