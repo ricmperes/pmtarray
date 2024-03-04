@@ -12,18 +12,21 @@ class PMTarray():
     """
     def __init__(self, array_diameter: float,
                  border_margin:float, intra_pmt_distance:float,
-                 pmt_model:str):
+                 pmt_model:str,
+                 custom_unit_params:dict = {}):
         """PMTarray class
 
         Args:
             array_diameter (float): diameter of the array
             border_margin (float): margin between the PMTs and the array border
             pmt_model (str): model of the PMT to use
+            custom_unit_params (dict, optional): dictionary with custom 
+                parameters for the PMT unit. Defaults to {}.
         """
         
         self.array_diameter = array_diameter
         self.border_margin = border_margin
-        self.pmtunit = self.load_pmtunit(pmt_model)
+        self.pmtunit = self.load_pmtunit(pmt_model, custom_unit_params)
         self.intra_pmt_distance = intra_pmt_distance
 
         if self.pmtunit.type == 'square':
@@ -142,7 +145,7 @@ class PMTarray():
         self.C_corners_xx = np.ma.masked_array(C_corner_xx, mask= merged_mask)
         self.C_corners_yy = np.ma.masked_array(C_corner_yy, mask= merged_mask)
     
-    def load_pmtunit(self, model: str):
+    def load_pmtunit(self, model: str, custom_unit_params: dict = {}):
         """Load the PMT unit.
 
         Args:
@@ -151,7 +154,7 @@ class PMTarray():
         Returns:
             PMTunit: a PMT unit class object
         """
-        return PMTunit(model=model)
+        return PMTunit(model=model, custom_params=custom_unit_params)
     
     def get_square_centres(self, active_area: bool = True):
         """Get centres of the PMTs.

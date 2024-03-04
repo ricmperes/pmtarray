@@ -10,9 +10,16 @@ from matplotlib.patches import Circle, Rectangle
 class PMTunit():
     """Class to represent a PMT unit."""
 
-    def __init__(self, model):
-        self.get_model_file(model)
-        self.get_model_geometry()
+    def __init__(self, model, custom_params={}):
+        if model == 'custom':
+            self.check_custom_params(custom_params)
+            if custom_params['type'] == 'square':
+                self.build_custom_square_model(custom_params)
+            elif custom_params['type'] == 'circular':
+                self.build_custom_circular_model(custom_params)
+        else:
+            self.get_model_file(model)
+            self.get_model_geometry()
         self.set_dependant_properties()
 
     def get_model_file(self, model):
@@ -23,6 +30,77 @@ class PMTunit():
             self.model = model_lib[model]
         else:
             raise ValueError('Model not found. Please make a PR to add it.')
+
+    def check_custom_params(self, custom_params):
+        """Check if the custom_params dictionary have all the correct params.
+        """
+        if not isinstance(custom_params, dict):
+            raise ValueError(
+                'The custom_params argument must be a dictionary.')
+        if 'type' not in custom_params.keys():
+            raise ValueError(
+                'The custom_params dictionary must have a type key.')
+
+        if custom_params['type'] == 'square':
+            params_list = ['name',
+                           'type',
+                           'width_package',
+                           'height_package',
+                           'width_tolerance',
+                           'height_tolerance',
+                           'width_active',
+                           'height_active',
+                           'active_area_correction',
+                           'D_corner_x_active',
+                           'D_corner_y_active',
+                           'qe']
+
+        elif custom_params['type'] == 'circular':
+            params_list = ['name',
+                           'type',
+                           'diameter_packaging',
+                           'active_diameter',
+                           'diameter_tolerance',
+                           'active_area_correction',
+                           'qe']
+
+        else:
+            raise ValueError(
+                'The type parameter must be either "square" or "circular".')
+
+        params_missing = [
+            param for param in params_list if param not in custom_params]
+        if len(params_missing) > 0:
+            raise ValueError('The custom_params dictionary must have all the '
+                             'correct parameters.\nMissing parameters: '
+                             f'{params_missing}')
+
+    def build_custom_square_model(self, custom_params):
+        """Build a custom square PMT model."""
+
+        self.name = custom_params['name']
+        self.type = custom_params['type']
+        self.width = self.width_package = custom_params['width_package']
+        self.height = self.height_package = custom_params['height_package']
+        self.width_active = custom_params['width_active']
+        self.height_active = custom_params['height_active']
+        self.width_tolerance = custom_params['width_tolerance']
+        self.height_tolerance = custom_params['height_tolerance']
+        self.D_corner_x_active = custom_params['D_corner_x_active']
+        self.D_corner_y_active = custom_params['D_corner_y_active']
+        self.active_area_correction = custom_params['active_area_correction']
+        self.qe = custom_params['qe']
+
+    def build_custom_circular_model(self, custom_params):
+        """Build a custom circular PMT model."""
+
+        self.name = custom_params['name']
+        self.type = custom_params['type']
+        self.diameter_packaging = custom_params['diameter_packaging']
+        self.active_diameter = custom_params['active_diameter']
+        self.diameter_tolerance = custom_params['diameter_tolerance']
+        self.active_area_correction = custom_params['active_area_correction']
+        self.qe = custom_params['qe']
 
     def get_model_geometry(self):
         """Loads model geometric properties from the model file.
